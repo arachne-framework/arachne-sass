@@ -1,0 +1,25 @@
+{:project org.arachne-framework/arachne-sass
+ :version {:major 0, :minor 1, :patch 0, :qualifier :dev}
+ :description "SASS Arachne module"
+ :license {"MIT License" "https://github.com/caleb/arachne-sass/raw/master/LICENSE.txt"}
+ :deps [[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
+        [org.arachne-framework/arachne-assets "0.1.0-master-0036-28a76d8"
+         :exclusions [org.clojure/tools.reader]]
+        [adzerk/boot-test "1.1.2" :scope "test"]
+        [org.clojure/test.check "0.9.0" :scope "test"
+         :exclusions [org.clojure/clojure]]
+        [org.clojure/tools.namespace "0.2.11" :scope "test"
+         :exclusions [org.clojure/clojure]]
+        [datascript "0.15.3" :scope "test"]
+        [com.datomic/datomic-free "0.9.5350"
+         :exclusions [org.slf4j/slf4j-api
+                      org.slf4j/slf4j-nop
+                      org.slf4j/slf4j-log4j12
+                      org.slf4j/log4j-over-slf4j
+                      com.google.guava/guava
+                      org.slf4j/jcl-over-slf4j
+                      org.clojure/clojure
+                      org.slf4j/jul-to-slf4j]
+         :scope "test"]
+        [ch.qos.logback/logback-classic "1.1.3" :scope "test"
+         :exclusions [org.slf4j/slf4j-api]]]}
