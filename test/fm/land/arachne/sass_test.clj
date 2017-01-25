@@ -1,10 +1,10 @@
-(ns arachne.sass-test
+(ns fm.land.arachne.sass-test
   (:require [clojure.test :refer :all]
             [arachne.core :as arachne]
             [arachne.core.runtime :as rt]
             [arachne.core.dsl :as ac]
-            [arachne.sass.build :as build]
-            [arachne.sass.dsl :as sass]
+            [fm.land.arachne.sass.build :as build]
+            [fm.land.arachne.sass.dsl :as sass]
             [clojure.spec :as s]
             [clojure.spec.gen :as gen]
             [clojure.test.check :as tc]
@@ -44,16 +44,16 @@
   [compile-opts]
   (binding [*compiler-opts* compile-opts]
     (let [cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-                '(arachne.sass-test/roundtrip-cfg))
+                '(fm.land.arachne.sass-test/roundtrip-cfg))
           opts (cfg/q cfg '[:find ?co .
                             :where
                             [?b :arachne/id :test/build]
-                            [?b :arachne.sass.build/compiler-options ?co]])]
+                            [?b :fm.land.arachne.sass.build/compiler-options ?co]])]
       (@#'build/extract (cfg/pull cfg '[*] opts)))))
 
 
 (defspec sass-configs-roundtrip-through-arachne 70
-  (prop/for-all [compile-opts (s/gen :arachne.sass.dsl/compiler-options)]
+  (prop/for-all [compile-opts (s/gen :fm.land.arachne.sass.dsl/compiler-options)]
     (let [output (roundtrip compile-opts)]
       (= (normalize output)
          (normalize compile-opts)))))
@@ -67,7 +67,7 @@
              :asset-path "js"
              :output-dir "js"
              :optimizations :none
-             :main 'arachne.sass.example})
+             :main 'fm.land.arachne.sass.example})
 
   (a/input-dir :test/input "test" :watch? watch)
 
@@ -82,7 +82,7 @@
 (deftest basic-build
   (let [output-dir (fs/tmpdir!)
         cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-              `(arachne.sass-test/build-cfg ~(.getCanonicalPath output-dir) false))
+              `(fm.land.arachne.sass-test/build-cfg ~(.getCanonicalPath output-dir) false))
         rt (component/start (rt/init cfg [:arachne/id :test/rt]))
         result (slurp (io/file output-dir "js/arachne/sass/example.js"))]
     (is (re-find #"Hello world!" result))))
@@ -90,7 +90,7 @@
 (comment
 
   (def cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-             '(arachne.sass-test/build-cfg "/tmp/out" true)))
+             '(fm.land.arachne.sass-test/build-cfg "/tmp/out" true)))
 
   (def rt (rt/init cfg [:arachne/id :test/rt]))
 
