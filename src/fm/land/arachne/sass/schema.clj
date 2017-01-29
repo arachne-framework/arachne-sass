@@ -25,8 +25,8 @@
               "Emit source map.")
       (m/attr :fm.land.arachne.sass.compiler-options/omit-map-comment :one-or-none :boolean
               "Omits the source map url comment.")
-      (m/attr :fm.land.arachne.sass.compiler-options/precision :one-or-none :number
+      (m/attr :fm.land.arachne.sass.compiler-options/precision :one-or-none :long
               "Set the precision for numbers.")
       (m/attr :fm.land.arachne.sass.compiler-options/sass :one-or-none :boolean
               "Treat input as indented syntax.")
-      ))
+      )))

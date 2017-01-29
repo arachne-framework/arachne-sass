@@ -1,10 +1,13 @@
-{:project org.arachne-framework/arachne-sass
+{:project fm.land/arachne-sass
  :version {:major 0, :minor 1, :patch 0, :qualifier :dev}
  :description "SASS Arachne module"
  :license {"MIT License" "https://github.com/caleb/arachne-sass/raw/master/LICENSE.txt"}
  :deps [[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
+        [org.clojure/clojurescript "1.9.456" :exclusions [org.clojure/clojure org.clojure/tools.reader] :scope "test"]
         [org.arachne-framework/arachne-assets "0.1.0-master-0036-28a76d8"
          :exclusions [org.clojure/tools.reader]]
+        [org.clojure/tools.reader "1.0.0-beta4"
+         :exclusions [org.clojure/clojure]]
         [adzerk/boot-test "1.1.2" :scope "test"]
         [org.clojure/test.check "0.9.0" :scope "test"
          :exclusions [org.clojure/clojure]]

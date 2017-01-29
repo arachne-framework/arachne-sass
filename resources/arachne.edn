@@ -1,4 +1,4 @@
-[{:arachne/name :org.arachne-framework/arachne-sass
+[{:arachne/name :fm.land/arachne-sass
   :arachne/schema fm.land.arachne.sass/schema
   :arachne/configure fm.land.arachne.sass/configure
   :arachne/dependencies [:org.arachne-framework/arachne-assets]}]

@@ -25,11 +25,8 @@
   []
 
   (a/input-dir :test/input "test")
-
   (sass/build :test/build *compiler-opts*)
-
   (a/pipeline [:test/input :test/build])
-
   (ac/runtime :test/rt [:test/build]))
 
 (defn- normalize
@@ -43,59 +40,56 @@
 (defn- roundtrip
   [compile-opts]
   (binding [*compiler-opts* compile-opts]
-    (let [cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-                '(fm.land.arachne.sass-test/roundtrip-cfg))
+    (let [cfg (arachne/build-config [:fm.land/arachne-sass]
+                                    '(fm.land.arachne.sass-test/roundtrip-cfg))
           opts (cfg/q cfg '[:find ?co .
                             :where
                             [?b :arachne/id :test/build]
                             [?b :fm.land.arachne.sass.build/compiler-options ?co]])]
-      (@#'build/extract (cfg/pull cfg '[*] opts)))))
-
+      (cfg/pull cfg '[*] opts))))
 
 (defspec sass-configs-roundtrip-through-arachne 70
   (prop/for-all [compile-opts (s/gen :fm.land.arachne.sass.dsl/compiler-options)]
-    (let [output (roundtrip compile-opts)]
-      (= (normalize output)
-         (normalize compile-opts)))))
+                (let [output (roundtrip compile-opts)]
+                  (= (normalize output)
+                     (normalize compile-opts)))))
 
-(defn build-cfg
-  "DSL function to build a simple SASS config"
-  [output-dir watch]
+(comment
+  (defn build-cfg
+    "DSL function to build a simple SASS config"
+    [output-dir watch]
 
-  ;; for all the ClojureScript compiler options, all paths are relative to the output fileset
-  (def opts {:output-to "main.js"
-             :asset-path "js"
-             :output-dir "js"
-             :optimizations :none
-             :main 'fm.land.arachne.sass.example})
+    ;; for all the ClojureScript compiler options, all paths are relative to the output fileset
+    (def opts {:output-to     "main.js"
+               :asset-path    "js"
+               :output-dir    "js"
+               :optimizations :none
+               :main          'fm.land.arachne.sass.example})
 
-  (a/input-dir :test/input "test" :watch? watch)
+    (a/input-dir :test/input "test" :watch? watch)
 
-  (sass/build :test/build opts)
+    (sass/build :test/build opts)
 
-  (a/output-dir :test/output output-dir)
+    (a/output-dir :test/output output-dir)
 
-  (a/pipeline [:test/input :test/build] [:test/build :test/output])
+    (a/pipeline [:test/input :test/build] [:test/build :test/output])
 
-  (ac/runtime :test/rt [:test/output]))
+    (ac/runtime :test/rt [:test/output]))
 
-(deftest basic-build
-  (let [output-dir (fs/tmpdir!)
-        cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-              `(fm.land.arachne.sass-test/build-cfg ~(.getCanonicalPath output-dir) false))
-        rt (component/start (rt/init cfg [:arachne/id :test/rt]))
-        result (slurp (io/file output-dir "js/arachne/sass/example.js"))]
-    (is (re-find #"Hello world!" result))))
+  (deftest basic-build
+    (let [output-dir (fs/tmpdir!)
+          cfg        (arachne/build-config [:fm.land/arachne-sass]
+                                           `(fm.land.arachne.sass-test/build-cfg ~(.getCanonicalPath output-dir) false))
+          rt         (component/start (rt/init cfg [:arachne/id :test/rt]))
+          result     (slurp (io/file output-dir "js/arachne/sass/example.js"))]
+      (is (re-find #"Hello world!" result)))))
 
 (comment
 
-  (def cfg (arachne/build-config [:org.arachne-framework/arachne-sass]
-             '(fm.land.arachne.sass-test/build-cfg "/tmp/out" true)))
+  (def cfg (arachne/build-config [:fm.land/arachne-sass]
+                                 '(fm.land.arachne.sass-test/build-cfg "/tmp/out" true)))
 
   (def rt (rt/init cfg [:arachne/id :test/rt]))
 
   (def rt (component/start rt))
-  (def rt (component/stop rt))
-
-
-  )
+  (def rt (component/stop rt)))
