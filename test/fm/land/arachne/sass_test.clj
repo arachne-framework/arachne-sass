@@ -58,7 +58,7 @@
   "DSL function to build a simple SASS config"
   [entrypoint output-dir watch]
 
-  ;; for all the ClojureScript compiler options, all paths are relative to the output fileset
+  ;; for all the SASSC compiler options, all paths are relative to the output fileset
   (def opts {:output-to     "application.css"
              :output-dir    "css"
              :entrypoint    entrypoint})
@@ -91,7 +91,7 @@
   "DSL function to build a simple SASS config"
   [entrypoint output-dir watch]
 
-  ;; for all the ClojureScript compiler options, all paths are relative to the output fileset
+  ;; for all the SASSC compiler options, all paths are relative to the output fileset
   (def opts {:output-to  "application.css"
              :output-dir "css"
              :load-path ["some-lib" "some-other-lib"] ;; some-lib is a directory under the vendor directory

@@ -1,8 +1,27 @@
 # arachne-sass
 
-[![CircleCI](https://circleci.com/gh/arachne-framework/arachne-sass.svg?style=shield)](https://circleci.com/gh/arachne-framework/arachne-sass)
+Arachne module for compiling SCSS/SASS as part of an asset pipeline.
 
-Arachne module for compiling SASS as part of an asset pipeline.
+## Basic Usage
+
+```clojure
+(a/input-dir :test/input "scss" :watch? true)
+(a/input-dir :test/vendored-input "vendor/scss" :watch? true)
+
+;; Output a file called "css/application.css" with a sourcemap
+(sass/build :test/build {:entrypoint "application.scss"
+                         :output-to "application.css"
+                         :output-dir "css"
+                         :load-path ["bootstrap"]
+                         :source-map true
+                         :precision 6})
+
+(a/output-dir :test/output output-dir)
+(a/pipeline [:test/input :test/build]
+            [:test/vendored-input :test/build]
+            [:test/build :test/output])
+(ac/runtime :test/rt [:test/output]))
+```
 
 ## WARNING
 
