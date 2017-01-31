@@ -75,6 +75,11 @@
   (if value
     ["--omit-map-comment"]
     []))
+(defmethod flag :fm.land.arachne.sass.compiler-options/sass
+  [key value src-dir dest-dir options-map]
+  (if value
+    ["--sass"]
+    []))
 
 (defn- sassc-flags
   "Convert options from the config db to an array of strings to pass as arguments to the sassc program"

@@ -84,6 +84,14 @@
     (is (thrown? arachne.ArachneException
                  (component/start (rt/init cfg [:arachne/id :test/rt]))))))
 
+(deftest basic-sass-build
+  (let [output-dir (fs/tmpdir!)
+        cfg        (arachne/build-config [:fm.land/arachne-sass]
+                                         `(fm.land.arachne.sass-test/build-cfg "basic.sass" ~(.getCanonicalPath output-dir) false))
+        rt         (component/start (rt/init cfg [:arachne/id :test/rt]))
+        result     (slurp (io/file output-dir "css/application.css"))]
+    (is (re-find #"background-color: #0000FF;" result))))
+
 ;;
 ;; Test a more complicated build
 ;;
