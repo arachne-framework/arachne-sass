@@ -1,0 +1,10 @@
+@import 'colors';
+
+$black: #000;
+
+html {
+  body {
+    background-color: $blue;
+    color: $black;
+  }
+}

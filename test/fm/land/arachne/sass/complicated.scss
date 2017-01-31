@@ -1,0 +1,6 @@
+@import 'grid'; // This is imported from some-lib
+@import 'buttons'; // This is imported from some-other-lib
+
+body {
+  width: (100% / 3);
+}

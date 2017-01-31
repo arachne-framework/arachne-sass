@@ -13,13 +13,19 @@
     (m/type :fm.land.arachne.sass/CompilerOptions []
       "Options for the SASSC compiler"
 
+      (m/attr :fm.land.arachne.sass.compiler-options/entrypoint :one :string
+              "The entrypoint file for the stylesheet.")
+      (m/attr :fm.land.arachne.sass.compiler-options/output-to :one :string
+              "The output CSS file")
+      (m/attr :fm.land.arachne.sass.compiler-options/output-dir :one-or-none :string
+              "The directory to write the output CSS file")
       (m/attr :fm.land.arachne.sass.compiler-options/style :one-or-none :keyword
               "Output style. Can be: :nested, :expanded, :compact, :compressed.")
       (m/attr :fm.land.arachne.sass.compiler-options/line-numbers :one-or-none :boolean
               "Emit comments showing original line numbers.")
-      (m/attr :fm.land.arachne.sass.compiler-options/load-path :one-or-none :string
+      (m/attr :fm.land.arachne.sass.compiler-options/load-path :many :string
               "Set Sass import path.")
-      (m/attr :fm.land.arachne.sass.compiler-options/plugin-path :one-or-none :string
+      (m/attr :fm.land.arachne.sass.compiler-options/plugin-path :many :string
               "Set path to autoload plugins.")
       (m/attr :fm.land.arachne.sass.compiler-options/source-map :one-or-none :boolean
               "Emit source map.")

@@ -12,14 +12,20 @@
 
 (s/def ::style #{:nested :expanded :compact :compressed})
 (s/def ::line-numbers boolean?)
-(s/def ::load-path ::path)
-(s/def ::plugin-path ::path)
+(s/def ::entrypoint ::path)
+(s/def ::output-to ::path)
+(s/def ::output-dir ::path)
+(s/def ::load-path (s/coll-of ::path :min-count 1))
+(s/def ::plugin-path (s/coll-of ::path :min-count 1))
 (s/def ::source-map boolean?)
 (s/def ::omit-map-comment boolean?)
-(s/def ::precision number?)
+(s/def ::precision integer?)
 (s/def ::sass boolean?)
 
-(s/def ::compiler-options (s/keys :opt-un [::style
+(s/def ::compiler-options (s/keys :req-un [::entrypoint
+                                           ::output-to]
+                                  :opt-un [::style
+                                           ::output-dir
                                            ::line-numbers
                                            ::load-path
                                            ::plugin-path
@@ -27,6 +33,20 @@
                                            ::omit-map-comment
                                            ::precision
                                            ::sass]))
+
+(defn compiler-options [opts]
+  (u/map-transform opts {}
+                   :entrypoint :fm.land.arachne.sass.compiler-options/entrypoint identity
+                   :output-to :fm.land.arachne.sass.compiler-options/output-to identity
+                   :output-dir :fm.land.arachne.sass.compiler-options/output-dir identity
+                   :style :fm.land.arachne.sass.compiler-options/style identity
+                   :line-numbers :fm.land.arachne.sass.compiler-options/line-numbers identity
+                   :load-path :fm.land.arachne.sass.compiler-options/load-path vec
+                   :plugin-path :fm.land.arachne.sass.compiler-options/plugin-path vec
+                   :source-map :fm.land.arachne.sass.compiler-options/source-map identity
+                   :omit-map-comment :fm.land.arachne.sass.compiler-options/omit-map-comment identity
+                   :precision :fm.land.arachne.sass.compiler-options/precision identity
+                   :sass :fm.land.arachne.sass.compiler-options/sass identity))
 
 (defdsl build
   "Define an Asset transducer component which builds SASSC.
@@ -47,5 +67,5 @@
                          :arachne/id (:arachne-id &args)
                          :arachne.component/constructor :arachne.assets.pipeline/transducer
                          :arachne.assets.transducer/constructor :fm.land.arachne.sass.build/build-transducer
-                         :fm.land.arachne.sass.build/compiler-options (:compiler-opts &args)})]
+                         :fm.land.arachne.sass.build/compiler-options (compiler-options (:compiler-opts &args))})]
     (script/transact [entity] tid)))
