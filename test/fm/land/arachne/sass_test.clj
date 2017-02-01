@@ -6,65 +6,20 @@
             [arachne.core.dsl :as ac]
             [fm.land.arachne.sass.build :as build]
             [fm.land.arachne.sass.dsl :as sass]
-            [clojure.spec :as s]
-            [clojure.spec.gen :as gen]
-            [clojure.test.check :as tc]
-            [clojure.test.check.properties :as prop]
-            [clojure.test.check.clojure-test :refer [defspec]]
             [arachne.core.config :as cfg]
             [arachne.assets.dsl :as a]
             [com.stuartsierra.component :as component]
-            [clojure.walk :as w]
             [arachne.fileset :as fs]
             [clojure.java.io :as io]))
-
-;; Used to smuggle a value into the config script
-(def ^:dynamic *compiler-opts*)
-
-(defn roundtrip-cfg
-  "DSL function to build test config that doesn't do much with the config data."
-  []
-  (a/input-dir :test/input "test")
-  (sass/build :test/build *compiler-opts*)
-  (a/pipeline [:test/input :test/build])
-  (ac/runtime :test/rt [:test/build]))
-
-(defn- normalize
-  "Convert all nested sequences to sets so items can be compared in an order-agnostic way"
-  [o]
-  (w/prewalk (fn [f]
-               (if (and (not (map-entry? f)) (sequential? f))
-                 (into #{} f)
-                 f)) o))
-
-(defn- roundtrip
-  [compile-opts]
-  (binding [*compiler-opts* compile-opts]
-    (let [cfg (arachne/build-config [:fm.land/arachne-sass]
-                                    '(fm.land.arachne.sass-test/roundtrip-cfg))
-          opts (cfg/q cfg '[:find ?co .
-                            :where
-                            [?b :arachne/id :test/build]
-                            [?b :fm.land.arachne.sass.build/compiler-options ?co]])]
-      (@#'build/extract (cfg/pull cfg '[*] opts)))))
-
-(defspec sass-configs-roundtrip-through-arachne 70
-  (prop/for-all [compile-opts (s/gen :fm.land.arachne.sass.dsl/compiler-options)]
-                (let [output (roundtrip compile-opts)]
-                  (= (normalize output)
-                     (normalize compile-opts)))))
 
 (defn build-cfg
   "DSL function to build a simple SASS config"
   [entrypoint output-dir watch]
 
-  ;; for all the SASSC compiler options, all paths are relative to the output fileset
-  (def opts {:output-to     "application.css"
-             :output-dir    "css"
-             :entrypoint    entrypoint})
-
   (a/input-dir :test/input "test/fm/land/arachne/sass" :watch? watch)
-  (sass/build :test/build opts)
+  (sass/build :test/build :output-to  "application.css"
+                          :output-dir "css"
+                          :entrypoint entrypoint)
   (a/output-dir :test/output output-dir)
   (a/pipeline [:test/input :test/build] [:test/build :test/output])
   (ac/runtime :test/rt [:test/output]))

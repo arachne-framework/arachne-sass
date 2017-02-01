@@ -22,17 +22,17 @@
 (s/def ::precision integer?)
 (s/def ::sass boolean?)
 
-(s/def ::compiler-options (s/keys :req-un [::entrypoint
-                                           ::output-to]
-                                  :opt-un [::style
-                                           ::output-dir
-                                           ::line-numbers
-                                           ::load-path
-                                           ::plugin-path
-                                           ::source-map
-                                           ::omit-map-comment
-                                           ::precision
-                                           ::sass]))
+(s/def ::compiler-options (u/keys** :req-un [::entrypoint
+                                             ::output-to]
+                                    :opt-un [::style
+                                             ::output-dir
+                                             ::line-numbers
+                                             ::load-path
+                                             ::plugin-path
+                                             ::source-map
+                                             ::omit-map-comment
+                                             ::precision
+                                             ::sass]))
 
 (defn compiler-options [opts]
   (u/map-transform opts {}
@@ -54,9 +54,9 @@
   Arguments are:
 
   - arachne-id (optional): the Arachne ID of the component
-  - compiler-options: A SASSC compiler options map. See the SASSC documentation
-    for possible values. The only difference is that options which specify paths (:output-to, :output-dir,
-    :preamble, :externs, etc.) will relative to the asset fileset rather than the process as a whole.
+  - compiler-options: A SASSC compiler options map. The only difference is that options which specify
+                      paths (:output-to, :output-dir,etc.) will relative to the asset fileset rather
+                      than the process as a whole.
 
   Returns the entity ID of the newly-created component."
 
@@ -67,5 +67,5 @@
                          :arachne/id (:arachne-id &args)
                          :arachne.component/constructor :arachne.assets.pipeline/transducer
                          :arachne.assets.transducer/constructor :fm.land.arachne.sass.build/build-transducer
-                         :fm.land.arachne.sass.build/compiler-options (compiler-options (:compiler-opts &args))})]
+                         :fm.land.arachne.sass.build/compiler-options (compiler-options (-> &args :compiler-opts second))})]
     (script/transact [entity] tid)))
