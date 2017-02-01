@@ -8,7 +8,7 @@ Arachne module for compiling SCSS/SASS as part of an asset pipeline.
 (a/input-dir :test/input "scss" :watch? true)
 (a/input-dir :test/vendored-input "vendor/scss" :watch? true)
 
-;; Output a file called "css/application.css" with a sourcemap
+;; Output a file called "assets/css/application.css" with a sourcemap
 (sass/build :test/build {:entrypoint "application.scss"
                          :output-to "application.css"
                          :output-dir "css"
@@ -16,7 +16,7 @@ Arachne module for compiling SCSS/SASS as part of an asset pipeline.
                          :source-map true
                          :precision 6})
 
-(a/output-dir :test/output output-dir)
+(a/output-dir :test/output "assets")
 (a/pipeline [:test/input :test/build]
             [:test/vendored-input :test/build]
             [:test/build :test/output])
