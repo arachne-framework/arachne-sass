@@ -17,9 +17,10 @@
   [entrypoint output-dir watch]
 
   (a/input-dir :test/input "test/fm/land/arachne/sass" :watch? watch)
-  (sass/build :test/build :output-to  "application.css"
-                          :output-dir "css"
-                          :entrypoint entrypoint)
+  (sass/build :test/build
+              :output-to "application.css"
+              :output-dir "css"
+              :entrypoint entrypoint)
   (a/output-dir :test/output output-dir)
   (a/pipeline [:test/input :test/build] [:test/build :test/output])
   (ac/runtime :test/rt [:test/output]))
@@ -84,7 +85,7 @@
     (is (re-find #"33.33%" result)) ;; Test precision
     (is (nil? (re-find #"sourceMappingURL" result))) ;; Test omit-map-comment
     (is (re-find #"mappings" source-map))  ;; Test the source map file
-    ))
+))
 
 (comment
 
