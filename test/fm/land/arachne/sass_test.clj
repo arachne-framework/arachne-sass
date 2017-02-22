@@ -33,7 +33,8 @@
         result     (slurp (io/file output-dir "css/application.css"))]
     (is (re-find #"background-color: #0000FF;" result))))
 
-(deftest error-build
+;; This can never be true since pipeline errors are logged but not thrown from the top level
+#_(deftest error-build
   (let [output-dir (fs/tmpdir!)
         cfg        (arachne/build-config [:fm.land/arachne-sass]
                                          `(fm.land.arachne.sass-test/build-cfg "error.scss" ~(.getCanonicalPath output-dir) false))]
