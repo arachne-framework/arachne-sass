@@ -34,7 +34,7 @@
                                              ::precision
                                              ::sass]))
 
-(defn compiler-options [opts]
+(defn- compiler-options [opts]
   (u/map-transform opts {}
                    :entrypoint :arachne.sass.compiler-options/entrypoint identity
                    :output-to :arachne.sass.compiler-options/output-to identity
