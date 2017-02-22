@@ -9,6 +9,7 @@ dependencies:
     - ~/bin
   pre:
     - sudo sysctl fs.inotify.max_user_watches=32768
+    - .ci/install-sassc.sh
     - .ci/install-boot.sh
     - boot
 
