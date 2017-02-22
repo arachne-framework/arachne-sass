@@ -22,4 +22,5 @@ deployment:
     branch: master
     commands:
     - git fetch --depth=1000000
+    - git status
     - boot deploy-dev
