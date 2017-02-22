@@ -1,5 +1,7 @@
 # arachne-sass
 
+By [Caleb Land](https://github.com/caleb/)
+
 Arachne module for compiling SCSS/SASS as part of an asset pipeline.
 
 ## Basic Usage

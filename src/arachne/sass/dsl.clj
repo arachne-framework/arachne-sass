@@ -1,4 +1,4 @@
-(ns fm.land.arachne.sass.dsl
+(ns arachne.sass.dsl
   "DSL code to handle SASSC compiler options"
   (:require [clojure.spec :as s]
             [arachne.error :as e :refer [deferror error]]
@@ -36,17 +36,17 @@
 
 (defn compiler-options [opts]
   (u/map-transform opts {}
-                   :entrypoint :fm.land.arachne.sass.compiler-options/entrypoint identity
-                   :output-to :fm.land.arachne.sass.compiler-options/output-to identity
-                   :output-dir :fm.land.arachne.sass.compiler-options/output-dir identity
-                   :style :fm.land.arachne.sass.compiler-options/style identity
-                   :line-numbers :fm.land.arachne.sass.compiler-options/line-numbers identity
-                   :load-path :fm.land.arachne.sass.compiler-options/load-path vec
-                   :plugin-path :fm.land.arachne.sass.compiler-options/plugin-path vec
-                   :source-map :fm.land.arachne.sass.compiler-options/source-map identity
-                   :omit-map-comment :fm.land.arachne.sass.compiler-options/omit-map-comment identity
-                   :precision :fm.land.arachne.sass.compiler-options/precision identity
-                   :sass :fm.land.arachne.sass.compiler-options/sass identity))
+                   :entrypoint :arachne.sass.compiler-options/entrypoint identity
+                   :output-to :arachne.sass.compiler-options/output-to identity
+                   :output-dir :arachne.sass.compiler-options/output-dir identity
+                   :style :arachne.sass.compiler-options/style identity
+                   :line-numbers :arachne.sass.compiler-options/line-numbers identity
+                   :load-path :arachne.sass.compiler-options/load-path vec
+                   :plugin-path :arachne.sass.compiler-options/plugin-path vec
+                   :source-map :arachne.sass.compiler-options/source-map identity
+                   :omit-map-comment :arachne.sass.compiler-options/omit-map-comment identity
+                   :precision :arachne.sass.compiler-options/precision identity
+                   :sass :arachne.sass.compiler-options/sass identity))
 
 (defdsl build
   "Define an Asset transducer component which builds SASSC.
@@ -66,6 +66,6 @@
         entity (u/mkeep {:db/id tid
                          :arachne/id (:arachne-id &args)
                          :arachne.component/constructor :arachne.assets.pipeline/transducer
-                         :arachne.assets.transducer/constructor :fm.land.arachne.sass.build/build-transducer
-                         :fm.land.arachne.sass.build/compiler-options (compiler-options (-> &args :compiler-opts second))})]
+                         :arachne.assets.transducer/constructor :arachne.sass.build/build-transducer
+                         :arachne.sass.build/compiler-options (compiler-options (-> &args :compiler-opts second))})]
     (script/transact [entity] tid)))

@@ -1,7 +1,7 @@
-(ns fm.land.arachne.sass.build
+(ns arachne.sass.build
   (:require
    [clojure.spec :as s]
-   [fm.land.arachne.sass.schema :as schema]
+   [arachne.sass.schema :as schema]
    [arachne.error :as e :refer [deferror error]]
    [arachne.core.config :as cfg]
    [arachne.core.util :as u]
@@ -57,25 +57,25 @@
 (defmethod flag :default
   [key value src-dir dest-dir options-map]
   [(str "--" (name key)) (str value)])
-(defmethod flag :fm.land.arachne.sass.compiler-options/load-path
+(defmethod flag :arachne.sass.compiler-options/load-path
   [key value src-dir dest-dir options-map]
   ["--load-path" (string/join ":"
                               (map #(append-path src-dir %) value))])
-(defmethod flag :fm.land.arachne.sass.compiler-options/plugin-path
+(defmethod flag :arachne.sass.compiler-options/plugin-path
   [key value src-dir dest-dir options-map]
   ["--plugin-path" (string/join ":"
                               (map #(append-path src-dir %) value))])
-(defmethod flag :fm.land.arachne.sass.compiler-options/source-map
+(defmethod flag :arachne.sass.compiler-options/source-map
   [key value src-dir dest-dir options-map]
   (if value
     ["--sourcemap"]
     []))
-(defmethod flag :fm.land.arachne.sass.compiler-options/omit-map-comment
+(defmethod flag :arachne.sass.compiler-options/omit-map-comment
   [key value src-dir dest-dir options-map]
   (if value
     ["--omit-map-comment"]
     []))
-(defmethod flag :fm.land.arachne.sass.compiler-options/sass
+(defmethod flag :arachne.sass.compiler-options/sass
   [key value src-dir dest-dir options-map]
   (if value
     ["--sass"]
@@ -86,18 +86,18 @@
   [src-dir dest-dir options-map]
   (mapcat (fn [[key value]] (flag key value src-dir dest-dir options-map))
           (select-keys options-map
-                       [:fm.land.arachne.sass.compiler-options/style
-                        :fm.land.arachne.sass.compiler-options/line-numbers
-                        :fm.land.arachne.sass.compiler-options/load-path
-                        :fm.land.arachne.sass.compiler-options/plugin-path
-                        :fm.land.arachne.sass.compiler-options/source-map
-                        :fm.land.arachne.sass.compiler-options/omit-map-comment
-                        :fm.land.arachne.sass.compiler-options/precision])))
+                       [:arachne.sass.compiler-options/style
+                        :arachne.sass.compiler-options/line-numbers
+                        :arachne.sass.compiler-options/load-path
+                        :arachne.sass.compiler-options/plugin-path
+                        :arachne.sass.compiler-options/source-map
+                        :arachne.sass.compiler-options/omit-map-comment
+                        :arachne.sass.compiler-options/precision])))
 
 (defn- sassc-options [src-dir dest-dir options-map]
-  (let [in (:fm.land.arachne.sass.compiler-options/entrypoint options-map)
-        out (filter identity [(:fm.land.arachne.sass.compiler-options/output-dir options-map)
-                              (:fm.land.arachne.sass.compiler-options/output-to options-map)])
+  (let [in (:arachne.sass.compiler-options/entrypoint options-map)
+        out (filter identity [(:arachne.sass.compiler-options/output-dir options-map)
+                              (:arachne.sass.compiler-options/output-to options-map)])
         out (apply io/file out)]
     [(str (append-path src-dir in))
      (str (append-path dest-dir out))]))
@@ -112,22 +112,22 @@
 
 (defn extract [opts]
   (u/map-transform opts {}
-                   :fm.land.arachne.sass.compiler-options/entrypoint :entrypoint identity
-                   :fm.land.arachne.sass.compiler-options/output-to :output-to identity
-                   :fm.land.arachne.sass.compiler-options/output-dir :output-dir identity
-                   :fm.land.arachne.sass.compiler-options/style :style identity
-                   :fm.land.arachne.sass.compiler-options/line-numbers :line-numbers identity
-                   :fm.land.arachne.sass.compiler-options/load-path :load-path identity
-                   :fm.land.arachne.sass.compiler-options/plugin-path :plugin-path identity
-                   :fm.land.arachne.sass.compiler-options/source-map :source-map identity
-                   :fm.land.arachne.sass.compiler-options/omit-map-comment :omit-map-comment identity
-                   :fm.land.arachne.sass.compiler-options/precision :precision identity
-                   :fm.land.arachne.sass.compiler-options/sass :sass identity))
+                   :arachne.sass.compiler-options/entrypoint :entrypoint identity
+                   :arachne.sass.compiler-options/output-to :output-to identity
+                   :arachne.sass.compiler-options/output-dir :output-dir identity
+                   :arachne.sass.compiler-options/style :style identity
+                   :arachne.sass.compiler-options/line-numbers :line-numbers identity
+                   :arachne.sass.compiler-options/load-path :load-path identity
+                   :arachne.sass.compiler-options/plugin-path :plugin-path identity
+                   :arachne.sass.compiler-options/source-map :source-map identity
+                   :arachne.sass.compiler-options/omit-map-comment :omit-map-comment identity
+                   :arachne.sass.compiler-options/precision :precision identity
+                   :arachne.sass.compiler-options/sass :sass identity))
 
 (defn build-transducer
   "Return a transducer over filesets that builds SASSC files"
   [component]
-  (let [options-entity (:fm.land.arachne.sass.build/compiler-options component)
+  (let [options-entity (:arachne.sass.build/compiler-options component)
         out-dir (fs/tmpdir!)
         build-id (:arachne/id component)]
     (map (fn [input-fs]
@@ -136,7 +136,7 @@
              (log/info :msg "Building SASSC" :build-id build-id)
              (let [started (System/currentTimeMillis)]
                ;; Create the output-dir if it doesn't exist
-               (when-let [output-dir (:fm.land.arachne.sass.compiler-options/output-dir options-entity)]
+               (when-let [output-dir (:arachne.sass.compiler-options/output-dir options-entity)]
                  (-> (append-path out-dir output-dir) io/file .mkdirs))
                (sassc src-dir out-dir options-entity)
                (let [elapsed (- (System/currentTimeMillis) started)
