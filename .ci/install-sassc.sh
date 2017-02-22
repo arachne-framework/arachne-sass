@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
 
 if which sassc > /dev/null; then
    echo "sassc already installed"

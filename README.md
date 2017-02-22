@@ -4,6 +4,8 @@ By [Caleb Land](https://github.com/caleb/)
 
 Arachne module for compiling SCSS/SASS as part of an asset pipeline.
 
+This module requires that the `sassc` program be installed and available on your path, since it operates by shelling out to the external `sassc` program.
+
 ## Basic Usage
 
 ```clojure
