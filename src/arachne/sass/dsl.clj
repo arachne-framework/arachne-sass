@@ -53,18 +53,16 @@
 
   Arguments are:
 
-  - arachne-id (optional): the Arachne ID of the component
   - compiler-options: A SASSC compiler options map. The only difference is that options which specify
                       paths (:output-to, :output-dir,etc.) will relative to the asset fileset rather
                       than the process as a whole.
 
   Returns the entity ID of the newly-created component."
 
-  (s/cat :arachne-id (s/? ::core/arachne-id) :compiler-opts ::compiler-options)
-  [<arachne-id> compiler-opts]
+  (s/cat :compiler-opts ::compiler-options)
+  [compiler-opts]
   (let [tid (cfg/tempid)
         entity (u/mkeep {:db/id tid
-                         :arachne/id (:arachne-id &args)
                          :arachne.component/constructor :arachne.assets.pipeline/transducer
                          :arachne.assets.transducer/constructor :arachne.sass.build/build-transducer
                          :arachne.sass.build/compiler-options (compiler-options (-> &args :compiler-opts second))})]

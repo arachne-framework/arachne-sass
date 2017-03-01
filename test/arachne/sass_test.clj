@@ -16,14 +16,14 @@
   "DSL function to build a simple SASS config"
   [entrypoint output-dir watch]
 
-  (a/input-dir :test/input "test/arachne/sass" :watch? watch)
-  (sass/build :test/build
-              :output-to "application.css"
-              :output-dir "css"
-              :entrypoint entrypoint)
-  (a/output-dir :test/output output-dir)
+  (ac/id :test/input (a/input-dir "test/arachne/sass" :watch? watch))
+  (ac/id :test/build (sass/build
+                      :output-to "application.css"
+                      :output-dir "css"
+                      :entrypoint entrypoint))
+  (ac/id :test/output (a/output-dir output-dir))
   (a/pipeline [:test/input :test/build] [:test/build :test/output])
-  (ac/runtime :test/rt [:test/output]))
+  (ac/id :test/rt (ac/runtime [:test/output])))
 
 (deftest basic-build
   (let [output-dir (fs/tmpdir!)
@@ -65,14 +65,15 @@
              :omit-map-comment true
              :entrypoint entrypoint})
 
-  (a/input-dir :test/input "test/arachne/sass" :watch? watch)
-  (a/input-dir :test/vendored-input "test/arachne/vendor" :watch? watch)
-  (sass/build :test/build opts)
-  (a/output-dir :test/output output-dir)
+  (ac/id :test/input (a/input-dir "test/arachne/sass" :watch? watch))
+  (ac/id :test/vendored-input (a/input-dir "test/arachne/vendor" :watch? watch))
+  (ac/id :test/build (sass/build opts))
+  (ac/id :test/output (a/output-dir output-dir))
   (a/pipeline [:test/input :test/build]
               [:test/vendored-input :test/build]
               [:test/build :test/output])
-  (ac/runtime :test/rt [:test/output]))
+
+  (ac/id :test/rt (ac/runtime [:test/output])))
 
 (deftest complicated-build
   (let [output-dir (fs/tmpdir!)
