@@ -1,6 +1,6 @@
 (ns arachne.sass.build
   (:require
-   [clojure.spec :as s]
+   [clojure.spec.alpha :as s]
    [arachne.sass.schema :as schema]
    [arachne.error :as e :refer [deferror error]]
    [arachne.core.config :as cfg]

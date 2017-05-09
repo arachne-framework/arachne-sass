@@ -2,7 +2,7 @@
  :version {:major 0, :minor 2, :patch 0, :qualifier :dev}
  :description "SASS Arachne module"
  :license {"MIT License" "https://github.com/arachne-framework/arachne-sass/raw/master/LICENSE.txt"}
- :deps [[org.clojure/clojure "1.9.0-alpha14" :scope "provided"]
+ :deps [[org.clojure/clojure "1.9.0-alpha16" :scope "provided"]
         [org.clojure/clojurescript "1.9.456" :exclusions [org.clojure/clojure org.clojure/tools.reader] :scope "test"]
         [org.arachne-framework/arachne-assets "0.2.0-master-0056-b6fd614"
          :exclusions [org.clojure/tools.reader]]
