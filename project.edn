@@ -4,7 +4,7 @@
  :license {"MIT License" "https://github.com/arachne-framework/arachne-sass/raw/master/LICENSE.txt"}
  :deps [[org.clojure/clojure "1.9.0-alpha16" :scope "provided"]
         [org.clojure/clojurescript "1.9.456" :exclusions [org.clojure/clojure org.clojure/tools.reader] :scope "test"]
-        [org.arachne-framework/arachne-assets "0.2.0-master-0056-b6fd614"
+        [org.arachne-framework/arachne-assets "0.2.0-master-0057-dde90c5"
          :exclusions [org.clojure/tools.reader]]
         [org.clojure/tools.reader "1.0.0-beta4"
          :exclusions [org.clojure/clojure]]
