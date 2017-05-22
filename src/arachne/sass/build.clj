@@ -96,9 +96,7 @@
 
 (defn- sassc-options [src-dir dest-dir options-map]
   (let [in (:arachne.sass.compiler-options/entrypoint options-map)
-        out (filter identity [(:arachne.sass.compiler-options/output-dir options-map)
-                              (:arachne.sass.compiler-options/output-to options-map)])
-        out (apply io/file out)]
+        out (io/file (:arachne.sass.compiler-options/output-to options-map))]
     [(str (append-path src-dir in))
      (str (append-path dest-dir out))]))
 
@@ -114,7 +112,6 @@
   (u/map-transform opts {}
                    :arachne.sass.compiler-options/entrypoint :entrypoint identity
                    :arachne.sass.compiler-options/output-to :output-to identity
-                   :arachne.sass.compiler-options/output-dir :output-dir identity
                    :arachne.sass.compiler-options/style :style identity
                    :arachne.sass.compiler-options/line-numbers :line-numbers identity
                    :arachne.sass.compiler-options/load-path :load-path identity
@@ -136,8 +133,9 @@
              (log/info :msg "Building SASSC" :build-id build-id)
              (let [started (System/currentTimeMillis)]
                ;; Create the output-dir if it doesn't exist
-               (when-let [output-dir (:arachne.sass.compiler-options/output-dir options-entity)]
-                 (-> (append-path out-dir output-dir) io/file .mkdirs))
+               (when-let [output-to-dir (-> (io/file (:arachne.sass.compiler-options/output-to options-entity))
+                                         (.getParentFile))]
+                 (-> (append-path out-dir output-to-dir) io/file .mkdirs))
                (sassc src-dir out-dir options-entity)
                (let [elapsed (- (System/currentTimeMillis) started)
                      elapsed-seconds (float (/ elapsed 1000))]

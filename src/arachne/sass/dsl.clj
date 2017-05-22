@@ -14,7 +14,6 @@
 (s/def ::line-numbers boolean?)
 (s/def ::entrypoint ::path)
 (s/def ::output-to ::path)
-(s/def ::output-dir ::path)
 (s/def ::load-path (s/coll-of ::path :min-count 1))
 (s/def ::plugin-path (s/coll-of ::path :min-count 1))
 (s/def ::source-map boolean?)
@@ -25,7 +24,6 @@
 (s/def ::compiler-options (u/keys** :req-un [::entrypoint
                                              ::output-to]
                                     :opt-un [::style
-                                             ::output-dir
                                              ::line-numbers
                                              ::load-path
                                              ::plugin-path
@@ -38,7 +36,6 @@
   (u/map-transform opts {}
                    :entrypoint :arachne.sass.compiler-options/entrypoint identity
                    :output-to :arachne.sass.compiler-options/output-to identity
-                   :output-dir :arachne.sass.compiler-options/output-dir identity
                    :style :arachne.sass.compiler-options/style identity
                    :line-numbers :arachne.sass.compiler-options/line-numbers identity
                    :load-path :arachne.sass.compiler-options/load-path vec
@@ -54,7 +51,7 @@
   Arguments are:
 
   - compiler-options: A SASSC compiler options map. The only difference is that options which specify
-                      paths (:output-to, :output-dir,etc.) will relative to the asset fileset rather
+                      paths (:output-to, :entrypoint, etc.) will relative to the asset fileset rather
                       than the process as a whole.
 
   Returns the entity ID of the newly-created component."

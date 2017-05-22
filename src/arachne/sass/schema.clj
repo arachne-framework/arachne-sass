@@ -17,8 +17,6 @@
               "The entrypoint file for the stylesheet.")
       (m/attr :arachne.sass.compiler-options/output-to :one :string
               "The output CSS file")
-      (m/attr :arachne.sass.compiler-options/output-dir :one-or-none :string
-              "The directory to write the output CSS file")
       (m/attr :arachne.sass.compiler-options/style :one-or-none :keyword
               "Output style. Can be: :nested, :expanded, :compact, :compressed.")
       (m/attr :arachne.sass.compiler-options/line-numbers :one-or-none :boolean

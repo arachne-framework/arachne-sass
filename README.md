@@ -14,8 +14,7 @@ This module requires that the `sassc` program be installed and available on your
 
 ;; Output a file called "assets/css/application.css" with a sourcemap
 (sass/build :test/build {:entrypoint "application.scss"
-                         :output-to "application.css"
-                         :output-dir "css"
+                         :output-to "css/application.css"
                          :load-path ["bootstrap"]
                          :source-map true
                          :precision 6})

@@ -18,8 +18,7 @@
 
   (ac/id :test/input (a/input-dir "test/arachne/sass" :watch? watch))
   (ac/id :test/build (sass/build
-                      :output-to "application.css"
-                      :output-dir "css"
+                      :output-to "css/application.css"
                       :entrypoint entrypoint))
   (ac/id :test/output (a/output-dir output-dir))
   (a/pipeline [:test/input :test/build] [:test/build :test/output])
@@ -57,8 +56,7 @@
   [entrypoint output-dir watch]
 
   ;; for all the SASSC compiler options, all paths are relative to the output fileset
-  (def opts {:output-to  "application.css"
-             :output-dir "css"
+  (def opts {:output-to  "css/application.css"
              :load-path ["some-lib" "some-other-lib"] ;; some-lib is a directory under the vendor directory
              :source-map true
              :precision 2
