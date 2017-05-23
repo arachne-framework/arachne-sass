@@ -11,7 +11,7 @@
         "SASSC compiler options for this build"))
 
     (m/type :arachne.sass/CompilerOptions []
-      "Options for the SASSC compiler"
+      "Options for the libsass compiler"
 
       (m/attr :arachne.sass.compiler-options/entrypoint :one :string
               "The entrypoint file for the stylesheet.")
@@ -19,8 +19,8 @@
               "The output CSS file")
       (m/attr :arachne.sass.compiler-options/style :one-or-none :keyword
               "Output style. Can be: :nested, :expanded, :compact, :compressed.")
-      (m/attr :arachne.sass.compiler-options/line-numbers :one-or-none :boolean
-              "Emit comments showing original line numbers.")
+      (m/attr :arachne.sass.compiler-options/source-comments :one-or-none :boolean
+              "Emit comments showing original source line.")
       (m/attr :arachne.sass.compiler-options/load-path :many :string
               "Set Sass import path.")
       (m/attr :arachne.sass.compiler-options/plugin-path :many :string

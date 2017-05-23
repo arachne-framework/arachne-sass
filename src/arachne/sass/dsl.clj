@@ -1,5 +1,5 @@
 (ns arachne.sass.dsl
-  "DSL code to handle SASSC compiler options"
+  "DSL code to handle libsass compiler options"
   (:require [clojure.spec.alpha :as s]
             [arachne.error :as e :refer [deferror error]]
             [arachne.core.dsl :as core]
@@ -11,7 +11,7 @@
 (s/def ::path ::string)
 
 (s/def ::style #{:nested :expanded :compact :compressed})
-(s/def ::line-numbers boolean?)
+(s/def ::source-comments boolean?)
 (s/def ::entrypoint ::path)
 (s/def ::output-to ::path)
 (s/def ::load-path (s/coll-of ::path :min-count 1))
@@ -24,7 +24,7 @@
 (s/def ::compiler-options (u/keys** :req-un [::entrypoint
                                              ::output-to]
                                     :opt-un [::style
-                                             ::line-numbers
+                                             ::source-comments
                                              ::load-path
                                              ::plugin-path
                                              ::source-map
@@ -37,7 +37,7 @@
                    :entrypoint :arachne.sass.compiler-options/entrypoint identity
                    :output-to :arachne.sass.compiler-options/output-to identity
                    :style :arachne.sass.compiler-options/style identity
-                   :line-numbers :arachne.sass.compiler-options/line-numbers identity
+                   :source-comments :arachne.sass.compiler-options/source-comments identity
                    :load-path :arachne.sass.compiler-options/load-path vec
                    :plugin-path :arachne.sass.compiler-options/plugin-path vec
                    :source-map :arachne.sass.compiler-options/source-map identity
@@ -46,11 +46,11 @@
                    :sass :arachne.sass.compiler-options/sass identity))
 
 (defdsl build
-  "Define an Asset transducer component which builds SASSC.
+  "Define an Asset transducer component which builds SASS/SCSS.
 
   Arguments are:
 
-  - compiler-options: A SASSC compiler options map. The only difference is that options which specify
+  - compiler-options: A libsass compiler options map. The only difference is that options which specify
                       paths (:output-to, :entrypoint, etc.) will relative to the asset fileset rather
                       than the process as a whole.
 

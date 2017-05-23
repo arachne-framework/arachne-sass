@@ -6,6 +6,10 @@
         [org.clojure/clojurescript "1.9.456" :exclusions [org.clojure/clojure org.clojure/tools.reader] :scope "test"]
         [org.arachne-framework/arachne-assets "0.2.0-master-0057-dde90c5"
          :exclusions [org.clojure/tools.reader]]
+        [org.clojure/data.json "0.2.6"
+         :exclusions [org.clojure/clojure]]
+        [io.bit3/jsass "5.5.1"
+         :exclusions [org.slf4j/slf4j-api]]
         [org.clojure/tools.reader "1.0.0-beta4"
          :exclusions [org.clojure/clojure]]
          [org.clojure/test.check "0.9.0" :scope "test"
