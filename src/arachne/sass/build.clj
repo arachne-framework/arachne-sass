@@ -162,7 +162,7 @@
         jsass-source-map-file (.toURI (apply io/file (filter identity [entrypoint-path source-map-name])))
         jsass-include-paths (into [(io/file entrypoint-path)] (map #(io/file src-dir %) load-path))
         jsass-input-uri (.toURI (io/file src-dir entrypoint))
-        jsass-output-uri (.toURI (io/file dest-dir output-to))
+        jsass-output-uri (.toURI (io/file entrypoint-path output-name))
 
         jsass-options (io.bit3.jsass.Options.)
         jsass-compiler (io.bit3.jsass.Compiler.)]
