@@ -1,6 +1,8 @@
 @import 'grid'; // This is imported from some-lib
 @import 'buttons'; // This is imported from some-other-lib
+@import '../colors'; // This is not imported from vendor
 
 body {
+  color: $blue;
   width: (100% / 3);
 }

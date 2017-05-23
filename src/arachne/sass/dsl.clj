@@ -11,7 +11,7 @@
 (s/def ::path ::string)
 
 (s/def ::style #{:nested :expanded :compact :compressed})
-(s/def ::line-numbers boolean?)
+(s/def ::source-comments boolean?)
 (s/def ::entrypoint ::path)
 (s/def ::output-to ::path)
 (s/def ::load-path (s/coll-of ::path :min-count 1))
@@ -24,7 +24,7 @@
 (s/def ::compiler-options (u/keys** :req-un [::entrypoint
                                              ::output-to]
                                     :opt-un [::style
-                                             ::line-numbers
+                                             ::source-comments
                                              ::load-path
                                              ::plugin-path
                                              ::source-map
@@ -37,7 +37,7 @@
                    :entrypoint :arachne.sass.compiler-options/entrypoint identity
                    :output-to :arachne.sass.compiler-options/output-to identity
                    :style :arachne.sass.compiler-options/style identity
-                   :line-numbers :arachne.sass.compiler-options/line-numbers identity
+                   :source-comments :arachne.sass.compiler-options/source-comments identity
                    :load-path :arachne.sass.compiler-options/load-path vec
                    :plugin-path :arachne.sass.compiler-options/plugin-path vec
                    :source-map :arachne.sass.compiler-options/source-map identity

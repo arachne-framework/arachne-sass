@@ -59,8 +59,10 @@
   (def opts {:output-to  "css/application.css"
              :load-path ["some-lib" "some-other-lib"] ;; some-lib is a directory under the vendor directory
              :source-map true
+             :source-comments true
              :precision 2
              :omit-map-comment true
+             :style :expanded
              :entrypoint entrypoint})
 
   (ac/id :test/input (a/input-dir "test/arachne/sass" :watch? watch))
@@ -76,7 +78,7 @@
 (deftest complicated-build
   (let [output-dir (fs/tmpdir!)
         cfg        (arachne/build-config [:org.arachne-framework/arachne-sass]
-                                         `(arachne.sass-test/complicated-build-cfg "complicated.scss" ~(.getCanonicalPath output-dir) false))
+                                         `(arachne.sass-test/complicated-build-cfg "subfolder/complicated.scss" ~(.getCanonicalPath output-dir) false))
         rt         (component/start (rt/init cfg [:arachne/id :test/rt]))
         result     (slurp (io/file output-dir "css/application.css"))
         source-map (slurp (io/file output-dir "css/application.css.map"))]
