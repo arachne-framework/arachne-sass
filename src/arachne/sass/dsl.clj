@@ -1,5 +1,5 @@
 (ns arachne.sass.dsl
-  "DSL code to handle SASSC compiler options"
+  "DSL code to handle libsass compiler options"
   (:require [clojure.spec.alpha :as s]
             [arachne.error :as e :refer [deferror error]]
             [arachne.core.dsl :as core]
@@ -46,11 +46,11 @@
                    :sass :arachne.sass.compiler-options/sass identity))
 
 (defdsl build
-  "Define an Asset transducer component which builds SASSC.
+  "Define an Asset transducer component which builds SASS/SCSS.
 
   Arguments are:
 
-  - compiler-options: A SASSC compiler options map. The only difference is that options which specify
+  - compiler-options: A libsass compiler options map. The only difference is that options which specify
                       paths (:output-to, :entrypoint, etc.) will relative to the asset fileset rather
                       than the process as a whole.
 

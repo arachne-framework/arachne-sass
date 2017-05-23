@@ -193,7 +193,7 @@
         (error ::jsass-error (json/read-str (.getErrorJson e)))))))
 
 (defn build-transducer
-  "Return a transducer over filesets that builds SASSC files"
+  "Return a transducer over filesets that builds SASS/SCSS files"
   [component]
   (let [options-entity (:arachne.sass.build/compiler-options component)
         out-dir (fs/tmpdir!)

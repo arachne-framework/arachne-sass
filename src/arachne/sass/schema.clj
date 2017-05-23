@@ -11,7 +11,7 @@
         "SASSC compiler options for this build"))
 
     (m/type :arachne.sass/CompilerOptions []
-      "Options for the SASSC compiler"
+      "Options for the libsass compiler"
 
       (m/attr :arachne.sass.compiler-options/entrypoint :one :string
               "The entrypoint file for the stylesheet.")

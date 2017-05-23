@@ -55,7 +55,7 @@
   "DSL function to build a simple SASS config"
   [entrypoint output-dir watch]
 
-  ;; for all the SASSC compiler options, all paths are relative to the output fileset
+  ;; for all the libsass compiler options, all paths are relative to the output fileset
   (def opts {:output-to  "css/application.css"
              :load-path ["some-lib" "some-other-lib"] ;; some-lib is a directory under the vendor directory
              :source-map true
